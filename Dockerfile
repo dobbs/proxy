@@ -1,6 +1,13 @@
-FROM abiosoft/caddy:0.10.10
+FROM abiosoft/caddy:builder
+ENV VERSION=0.10.10
+ENV PLUGINS=jwt
+RUN /bin/sh /usr/bin/builder.sh
 
-RUN apk add --no-cache libcap \
+FROM alpine:3.6
+COPY --from=0 /install/caddy /usr/bin/caddy
+RUN apk add --update --no-cache \
+ openssh-client \
+ libcap \
  && setcap 'cap_net_bind_service=+ep' /usr/bin/caddy \
  && apk del libcap \
  && addgroup -S -g 8888 caddy \
@@ -21,5 +28,6 @@ ENV CADDYPATH="/etc/proxy.certs"
 ENV TLS="self_signed"
 VOLUME /etc/proxy.d
 VOLUME /etc/proxy.certs
-# ENTRYPOINT from abiosoft/caddy: ["/usr/bin/caddy"]
+ENTRYPOINT ["/usr/bin/caddy"]
+EXPOSE 80 443 2015
 CMD ["--conf", "/etc/proxy/Caddyfile", "--log", "stdout"]

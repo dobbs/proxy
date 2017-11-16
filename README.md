@@ -4,8 +4,9 @@ Minimal reverse proxy to enable TLS protection of an origin server.
 
 Originally extracted from [an example of Federated Wiki].
 
-We extend [abiosoft/caddy] by using a non-root user and providing
-a specific `Caddyfile`.
+Our multi-stage build starts with [abiosoft/caddy] building a custom
+caddy with the jwt plugin.  Our final image is alpine:3.6 with a
+non-root user and our custom `Caddyfile` and a couple volumes.
 
 [an example of Federated Wiki]: https://github.com/dobbs/wiki-example-tls-friends#readme
 [abiosoft/caddy]: https://hub.docker.com/r/abiosoft/caddy
