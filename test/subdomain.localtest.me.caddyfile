@@ -1,0 +1,7 @@
+https://subdomain.localtest.me {
+  gzip
+  tls {$TLS}
+  proxy / subdomain:3000 {
+    transparent
+  }
+}

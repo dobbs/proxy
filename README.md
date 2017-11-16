@@ -2,11 +2,10 @@
 
 Minimal reverse proxy to enable TLS protection of an origin server.
 
-Extracted from [an example of Federated Wiki].  Somewhat likely that
-it's not yet general purpose; that it's coupled to assumptions from
-that context.
+Originally extracted from [an example of Federated Wiki].
 
-It is basically [abiosoft/caddy] with a specific `Caddyfile`.
+We extend [abiosoft/caddy] by using a non-root user and providing
+a specific `Caddyfile`.
 
 [an example of Federated Wiki]: https://github.com/dobbs/wiki-example-tls-friends#readme
 [abiosoft/caddy]: https://hub.docker.com/r/abiosoft/caddy
@@ -15,27 +14,27 @@ https://caddyserver.com/
 
 # Usage
 
-``` yaml
-version: '3'
-services:
-  proxy:
-    image: dobbs/proxy
-    ports:
-      - "80:80"
-      - "443:443"
-  web:
-    ports:
-      - "3000:3000"
-    ...
-```
+See example in `test/docker-compose.yml`
 
-The `ORIGIN` environment variable names the host and port of the
-Origin Server.  It's default value is `web:3000`.  So you can either
-name your service `web` and have it listen on port 3000, or set
-`ORIGIN` to something that fits your environment.
+# Environment variables
 
-The default `Caddyfile` is located at `/etc/proxy/Caddyfile`.  It will
-also include any files matching the pattern `/etc/proxy/*-Caddyfile`.
+`ORIGIN` (default: `web:3000`) names the host and port of the Origin Server.
+
+`CADYPATH` (default: `/etc/proxy.certs`) see volumes below.
+
+`TLS` (default: `self_signed`) see https://caddyserver.com/docs/tls
+
+# Volumes
+
+`/etc/proxy.d` place to add extra Caddyfiles.  All files with a
+`.caddyfile` suffix will be included before the default config.  This
+is intended to allow a base domain to be forwarded to a default
+service (defined by `ORIGIN`) while allowing subdomains to be directed
+to other services.
+
+`/etc/proxy.certs` where auto-generated certs live.
+
+# Other
 
 My favorite features:
 * both port 443 and 80 are forwarded to the origin server
@@ -44,3 +43,4 @@ My favorite features:
   specific service.
 * auto-generated self-signed certificate for localhost development.
 * override the default Caddyfile to use LetsEncrypt on a public server.
+* recently added a relatively simple test case

@@ -1,9 +1,9 @@
-import *-Caddyfile
+import /etc/proxy.d/*.caddyfile
 
 :443,
 :80
 gzip
-tls self_signed
+tls {$TLS}
 proxy / {$ORIGIN} {
   transparent
 }
