@@ -21,7 +21,8 @@ RUN apk add --update --no-cache \
    /etc/proxy \
    /etc/proxy.d \
    /etc/proxy.certs
-COPY --chown=caddy Caddyfile /etc/proxy/Caddyfile
+COPY Caddyfile /etc/proxy/Caddyfile
+RUN chown caddy /etc/proxy/Caddyfile
 USER caddy
 ENV ORIGIN="web:3000"
 ENV CADDYPATH="/etc/proxy.certs"
