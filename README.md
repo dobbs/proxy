@@ -45,3 +45,42 @@ My favorite features:
 * auto-generated self-signed certificate for localhost development.
 * override the default Caddyfile to use LetsEncrypt on a public server.
 * recently added a relatively simple test case
+
+# Development
+
+We include a small collection of tests which conform to TAP.
+
+``` bash
+prove -v
+# example results
+t/proxy.t ..
+1..8
+ok - default config localtest.me
+ok - Caddy default page
+ok - default config subdomain.localtest.me
+ok - Caddy default page
+ok - override config localtest.me
+ok - Caddy default page
+ok - override config subdomain.localtest.me
+ok - overriden page
+ok
+All tests successful.
+Files=1, Tests=8,  6 wallclock secs ( 0.02 usr  0.00 sys +  1.76 cusr  0.51 csys =  2.29 CPU)
+Result: PASS
+```
+
+Github and Dockerhub are configured to build master branch and tags.
+
+``` bash
+git tag -am "" 0.10.10
+git push --tags
+```
+
+We've tried to keep the git and docker versions in step with the
+version of Caddy that's packaged in the image.  When there are changes
+in this build without changed in Caddy...
+
+``` bash
+docker build -t dobbs/proxy:0.10.10-note .
+docker push
+```

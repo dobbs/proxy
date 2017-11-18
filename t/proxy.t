@@ -13,8 +13,12 @@ main() {
 }
 
 setup() {
+    readonly DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+    cd $DIR
+    docker volume rm t_proxy.d &>/dev/null || true
     docker-compose up -d proxy web 2>/dev/null
     trap teardown SIGTERM
+    printf "1..%d\n" 8
 }
 
 setup_extra() {
@@ -27,7 +31,7 @@ setup_extra() {
 teardown() {
     docker-compose stop &>/dev/null
     docker-compose rm -f &>/dev/null
-    docker volume rm test_proxy.d &>/dev/null
+    docker volume rm t_proxy.d &>/dev/null
 }
 
 test_default_config_with_top_domain() {
@@ -71,9 +75,9 @@ assert_200_OK() {
     local response="${1:-MISSING}"
     local message="${2:-}"
     if egrep -q '^HTTP/1.1 200 OK' <<<"$response"; then
-        printf " %-40s  %s\n" "$message" "OK"
+        printf "ok - %s\n" "$message"
     else
-        printf " %-40s  %s\n" "$message" "NOT OK"
+        printf "not ok - %s\n" "$message"
     fi
 }
 
@@ -82,9 +86,9 @@ assert_content() {
     local regexp="${2:-MISSING_PATTERN}"
     local message="${3:-}"
     if egrep -q "$regexp" <<<"$response"; then
-        printf " %-40s  %s\n" "$message" "OK"
+        printf "ok - %s\n" "$message"
     else
-        printf " %-40s  %s\n" "$message" "NOT OK"
+        printf "not ok - %s\n" "$message"
     fi
 }
 
