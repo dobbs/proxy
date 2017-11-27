@@ -21,7 +21,7 @@ See example in `test/docker-compose.yml`
 
 `ORIGIN` (default: `web:3000`) names the host and port of the Origin Server.
 
-`CADYPATH` (default: `/etc/proxy.certs`) see volumes below.
+`CADYPATH` (default: `/etc/proxy`) see volumes below.
 
 `TLS` (default: `self_signed`) see https://caddyserver.com/docs/tls
 
@@ -33,7 +33,7 @@ is intended to allow a base domain to be forwarded to a default
 service (defined by `ORIGIN`) while allowing subdomains to be directed
 to other services.
 
-`/etc/proxy.certs` where auto-generated certs live.
+`/etc/proxy` where auto-generated certs live.
 
 # Other
 
