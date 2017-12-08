@@ -21,12 +21,12 @@ RUN apk add --update --no-cache \
    /etc/proxy.d
 COPY Caddyfile /etc/proxy/Caddyfile
 RUN chown caddy /etc/proxy/Caddyfile
+RUN apk add --no-cache ca-certificates
 USER caddy
 ENV ORIGIN="web:3000"
 ENV CADDYPATH="/etc/proxy"
 ENV TLS="self_signed"
 VOLUME /etc/proxy
 VOLUME /etc/proxy.d
-ENTRYPOINT ["/usr/bin/caddy"]
 EXPOSE 80 443 2015
-CMD ["--conf", "/etc/proxy/Caddyfile", "--log", "stdout"]
+CMD ["/usr/bin/caddy", "--conf", "/etc/proxy/Caddyfile", "--log", "stdout"]

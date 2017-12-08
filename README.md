@@ -78,9 +78,9 @@ git push --tags
 
 We've tried to keep the git and docker versions in step with the
 version of Caddy that's packaged in the image.  When there are changes
-in this build without changed in Caddy...
+in this build without changes in Caddy...
 
 ``` bash
-docker build -t dobbs/proxy:0.10.10-note .
-docker push
+git tag -am "" 0.10.10-note
+git push --tags
 ```
