@@ -1,9 +1,9 @@
 FROM abiosoft/caddy:builder
-ENV VERSION=0.10.10
+ENV VERSION=0.10.11
 ENV PLUGINS=jwt
 RUN /bin/sh /usr/bin/builder.sh
 
-FROM alpine:3.6
+FROM alpine:3.7
 COPY --from=0 /install/caddy /usr/bin/caddy
 RUN apk add --update --no-cache \
  openssh-client \

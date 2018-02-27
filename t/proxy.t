@@ -14,6 +14,13 @@ main() {
 
 setup() {
     readonly DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+    if [ -x /usr/local/opt/curl/bin/curl ]; then
+        readonly CURL=/usr/local/opt/curl/bin/curl
+    else
+        readonly CURL=$(command -v curl)
+    fi
+
     cd $DIR
     docker volume rm t_proxy.d &>/dev/null || true
     docker-compose up -d proxy web 2>/dev/null
@@ -62,7 +69,7 @@ test_override_config_with_subdomain() {
 
 request() {
     local host="${1:-MISSING}"
-    curl \
+    $CURL \
         --insecure \
         --include \
         --silent \
