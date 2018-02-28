@@ -5,10 +5,10 @@ Minimal reverse proxy to enable TLS protection of an origin server.
 Originally extracted from [an example of Federated Wiki].
 
 Our multi-stage build starts with [abiosoft/caddy] building a custom
-caddy with the jwt plugin.  Our final image is alpine:3.6 with a
+caddy with the jwt plugin.  Our final image is alpine:3.7 with a
 non-root user and our custom `Caddyfile` and a couple volumes.
 
-[an example of Federated Wiki]: https://github.com/dobbs/wiki-example-tls-friends#readme
+[an example of Federated Wiki]: https://github.com/dobbs/wiki-tls#readme
 [abiosoft/caddy]: https://hub.docker.com/r/abiosoft/caddy
 
 https://caddyserver.com/
@@ -39,11 +39,11 @@ to other services.
 
 My favorite features:
 * both port 443 and 80 are forwarded to the origin server
-* all domain names will be forwarded
-* you can include other Caddyfiles to delegate a subdomain to a
-  specific service.
-* auto-generated self-signed certificate for localhost development.
-* override the default Caddyfile to use LetsEncrypt on a public server.
+* all domain and sub-domain names will be forwarded
+* you can include other Caddyfiles to delegate a specific subdomain to a
+  specific service
+* auto-generated self-signed certificate for localhost development
+* override the default Caddyfile to use LetsEncrypt on a public server
 * recently added a relatively simple test case
 
 # Development
@@ -69,16 +69,19 @@ Files=1, Tests=8,  6 wallclock secs ( 0.02 usr  0.00 sys +  1.76 cusr  0.51 csys
 Result: PASS
 ```
 
+### Notes to self:
+
 Github and Dockerhub are configured to build master branch and tags.
 
 ``` bash
-git tag -am "" 0.10.10
+git tag -am "" 0.10.11
 git push --tags
 ```
 
-We've tried to keep the git and docker versions in step with the
-version of Caddy that's packaged in the image.  When there are changes
-in this build without changes in Caddy...
+I've tried to keep the git and docker versions in step with the
+version of Caddy that's packaged in the image.  There have been
+changes in this build without changes in Caddy, in which case I
+have tagged like this:
 
 ``` bash
 git tag -am "" 0.10.10-note
