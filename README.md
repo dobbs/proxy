@@ -74,7 +74,7 @@ Result: PASS
 Github and Dockerhub are configured to build master branch and tags.
 
 ``` bash
-git tag -am "" 0.10.11
+git tag -am "" 0.10.12
 git push --tags
 ```
 

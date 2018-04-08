@@ -1,5 +1,5 @@
 FROM abiosoft/caddy:builder
-ENV VERSION=0.10.11
+ENV VERSION=0.10.12
 ENV PLUGINS=jwt
 RUN /bin/sh /usr/bin/builder.sh
 

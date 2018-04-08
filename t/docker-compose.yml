@@ -2,17 +2,17 @@ version: '2.2'
 
 services:
   proxy:
-    image: dobbs/proxy:0.10.11
+    image: dobbs/proxy:0.10.12
     build: ..
     ports:
       - 8000:443
     volumes:
       - 'proxy.d:/etc/proxy.d'
   web:
-    image: abiosoft/caddy:0.10.11
+    image: abiosoft/caddy:0.10.12
     command: -port 3000
   subdomain:
-    image: abiosoft/caddy:0.10.11
+    image: abiosoft/caddy:0.10.12
     volumes:
       - './subdomain.html:/srv/index.html'
     command: -port 3000
